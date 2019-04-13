@@ -1,6 +1,7 @@
 const express = require("express");
 const jobDao = require("../dao/job");
 const Job = require("../models/job");
+const utils = require("../utils/utils");
 
 const register = (app) => {
     app.use(express.json());
@@ -47,6 +48,7 @@ const register = (app) => {
 
         let job = new Job(req.body.name, req.body.cron, req.body.command, req.body.commandType);
         await jobDao.insert(job);
+        utils.rewriteCronFile(await jobDao.list());
         res.status(201);
         res.json({"data": job, "message": "Job created."});
     });
@@ -73,6 +75,7 @@ const register = (app) => {
         job.commandType = req.body.commandType;
         let result = await jobDao.update(job);
 
+        utils.rewriteCronFile(await jobDao.list());
         res.status(200);
         res.json({"data": result, "message": `Job id ${req.params.id} updated.`});
     });
@@ -86,6 +89,7 @@ const register = (app) => {
             return;
         }
 
+        utils.rewriteCronFile(await jobDao.list());
         res.status(200);
         res.json({"data": result, "message": `Job with id ${req.params.id} deleted.`});
     });
