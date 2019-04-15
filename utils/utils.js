@@ -36,7 +36,9 @@ const makeCommand = (job) => {
 
 const restartCron = () => {
     const serviceBinary = shell.which("service");
-    const result = shell.exec(`${serviceBinary} cron reload`);
+    shell.exec(`cat /usr/src/app/.node-persist/jobs.crontab | crontab`);
+    shell.exec(`crontab -l`);
+    shell.exec(`${serviceBinary} cron reload`);
 }
 
 module.exports = { getBiggest, rewriteCronFile }
