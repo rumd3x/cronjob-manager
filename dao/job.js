@@ -1,6 +1,4 @@
 const storage = require("node-persist");
-const format = require("date-fns/format");
-
 const utils = require("../utils/utils");
 
 class JobDao {
@@ -59,7 +57,6 @@ class JobDao {
         return true;
     }
 }
-
 
 const jobDao = new JobDao();
 module.exports = jobDao;

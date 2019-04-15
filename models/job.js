@@ -1,5 +1,3 @@
-const format = require("date-fns/format");
-
 class Job {
     constructor(name, cron, command, commandType) {
         this.id = null;
