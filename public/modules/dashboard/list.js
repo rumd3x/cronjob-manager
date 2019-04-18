@@ -4,6 +4,10 @@ var disabledJobs = [];
 const getJobsList = () => {
     $.get('api/jobs', (response) => {
         jobs = response.data;
+        jobs.forEach(job => {
+            job.createdAtFormatted = formatDateTimeString(job.createdAt);
+            job.updatedAtFormatted = formatDateTimeString(job.updatedAt);
+        });
         disabledJobs = jobs.filter((job) => { return !job.active });
         $.toast({
             text: response.message,
@@ -18,6 +22,10 @@ const getJobsList = () => {
             loaderBg: '#9EC600',
         });
     });
+}
+
+const formatDateTimeString = (date) => {
+    return new Date(Date.parse(date)).toLocaleString();
 }
 
 getJobsList();
