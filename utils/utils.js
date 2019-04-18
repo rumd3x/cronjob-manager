@@ -41,4 +41,9 @@ const restartCron = () => {
     shell.exec(`${serviceBinary} cron reload`);
 }
 
-module.exports = { getBiggest, rewriteCronFile }
+const getLogs = (job) => {
+    let logs = shell.exec(`cat -ns /var/log/${job.name}.log 2>/dev/null`);
+    return logs;
+}
+
+module.exports = { getBiggest, rewriteCronFile, getLogs }

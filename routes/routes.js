@@ -38,6 +38,21 @@ const register = (app) => {
         res.json({"data": job, "message": `Job with id ${req.params.id} found.`});
     });
 
+    app.get("/api/jobs/:id/logs", async (req, res) => {
+        let job = await jobDao.find(req.params.id);
+
+        if (!job) {
+            res.status(404);
+            res.json({"data": job, "message": `Could not find specified Job with id ${req.params.id}.`});
+            return;
+        }
+
+        let logs = utils.getLogs(job);
+
+        res.status(200);
+        res.json({"data": logs, "message": `Job with id ${req.params.id} found.`});
+    });
+
     app.post("/api/jobs", async (req, res) => {
         let errors = Job.validate(req.body);
         if (errors.length > 0) {
