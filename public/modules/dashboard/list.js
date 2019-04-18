@@ -1,8 +1,10 @@
 var jobs = [];
+var disabledJobs = [];
 
 const getJobsList = () => {
     $.get('api/jobs', (response) => {
         jobs = response.data;
+        disabledJobs = jobs.filter((job) => { return !job.active });
         $.toast({
             text: response.message,
             icon: 'info',

@@ -40,13 +40,7 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-            <a href="#" data-toggle="modal" data-target="#logoutModal" class="d-none d-sm-inline-block btn btn-success shadow-sm">
-              <i class="fas fa-calendar-plus fa-sm text-white-50"></i> Add Job
-            </a>
-          </div>
+
 
           <!-- Content Row -->
           <div class="row">
@@ -58,7 +52,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Jobs</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"> 12</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ jobs.length }}</div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-calendar-day fa-2x text-gray-300"></i>
@@ -68,13 +62,15 @@
               </div>
             </div>
 
+
+
             <div class="col-md-6 mb-4">
               <div class="card border-left-warning shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Disabled Jobs</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"> 5</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ disabledJobs.length }}</div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-calendar-times fa-2x text-gray-300"></i>
@@ -85,7 +81,15 @@
             </div>
           </div>
 
+          <hr class="divider">
 
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Job Management</h1>
+            <a href="#" data-toggle="modal" data-target="#logoutModal" class="d-none d-sm-inline-block btn btn-success shadow-sm">
+              <i class="fas fa-calendar-plus fa-sm text-white-50"></i> New Job
+            </a>
+          </div>
 
           <!-- Content Row -->
           <div class="row">
@@ -95,12 +99,12 @@
               <!-- Approach -->
               <div class="card shadow mb-4">
 
-                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                      <h6 class="m-0 font-weight-bold text-primary">Available Jobs</h6>
-                      <a href="#" class="btn btn-sm btn-primary">
-                        <i class="fas fa-sync fa-sm text-white-50"></i>
-                      </a>
-                    </div>
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Available Jobs</h6>
+                  <a href="#" beth-click="getJobsList()" class="btn btn-sm btn-primary">
+                    <i class="fas fa-sync fa-sm text-white-50"></i>
+                  </a>
+                </div>
 
                 <div class="card-body card-line">
                   <div class="card">
@@ -116,28 +120,28 @@
                   </div>
                 </div>
 
-                <div class="card-body card-line">
+                <div beth-each="jobs => $job" class="card-body card-line">
                   <div class="card">
-                    <div class="card-body border-left-success">
+                    <div class="card-body" beth-class="'{ $job.active }' == 'true' ? 'border-left-success' : 'border-left-danger'">
                       <div class="row">
-                        <div class="col-md-1">1</div>
-                        <div class="col-md-2 text-center">Backup</div>
-                        <div class="col-md-3 text-center">17/04/2019 13:00:00</div>
-                        <div class="col-md-3 text-center">17/04/2019 13:00:00</div>
+                        <div class="col-md-1">{ $job.id }</div>
+                        <div class="col-md-2 text-center">{ $job.name }</div>
+                        <div class="col-md-3 text-center">{ $job.createdAt }</div>
+                        <div class="col-md-3 text-center">{ $job.updatedAt }</div>
                         <div class="col-md-3 text-center">
-                            <a href="#" class="btn btn-info btn-icon-split btn-sm">
+                            <a href="#" data-id="{ $job.id }" class="btn btn-info btn-icon-split btn-sm">
                               <span class="icon text-white-50">
                                 <i class="fas fa-info-circle"></i>
                               </span>
                               <span class="text">Logs</span>
                             </a>
-                            <a href="#" class="btn btn-primary btn-icon-split btn-sm">
+                            <a href="#" data-id="{ $job.id }" class="btn btn-primary btn-icon-split btn-sm">
                               <span class="icon text-white-50">
                                 <i class="fas fa-edit"></i>
                               </span>
                               <span class="text">Edit</span>
                             </a>
-                            <a href="#" class="btn btn-danger btn-icon-split btn-sm">
+                            <a href="#" data-id="{ $job.id }" class="btn btn-danger btn-icon-split btn-sm">
                               <span class="icon text-white-50">
                                 <i class="fas fa-trash"></i>
                               </span>
@@ -148,39 +152,6 @@
                     </div>
                   </div>
                 </div>
-
-                <div class="card-body card-line">
-                    <div class="card">
-                      <div class="card-body border-left-danger">
-                        <div class="row">
-                          <div class="col-md-1">1</div>
-                          <div class="col-md-2 text-center">Backup</div>
-                          <div class="col-md-3 text-center">17/04/2019 13:00:00</div>
-                          <div class="col-md-3 text-center">17/04/2019 13:00:00</div>
-                          <div class="col-md-3 text-center">
-                              <a href="#" class="btn btn-info btn-icon-split btn-sm">
-                                <span class="icon text-white-50">
-                                  <i class="fas fa-info-circle"></i>
-                                </span>
-                                <span class="text">Logs</span>
-                              </a>
-                              <a href="#" class="btn btn-primary btn-icon-split btn-sm">
-                                <span class="icon text-white-50">
-                                  <i class="fas fa-edit"></i>
-                                </span>
-                                <span class="text">Edit</span>
-                              </a>
-                              <a href="#" class="btn btn-danger btn-icon-split btn-sm">
-                                <span class="icon text-white-50">
-                                  <i class="fas fa-trash"></i>
-                                </span>
-                                <span class="text">Delete</span>
-                              </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
 
               </div>
 
