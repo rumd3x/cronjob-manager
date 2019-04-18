@@ -7,7 +7,16 @@ class JobDao {
         if (data === undefined) {
             return [];
         }
-        return data;
+        return data.sort((a, b) => {
+            if (a.id < b.id) return -1;
+            if (a.id > b.id) return 1;
+            return 0;
+        }).sort((a, b) => {
+            if (a.active && b.active) return 0;
+            if (a.active) return -1;
+            if (b.active) return 1;
+            return 0;
+        });
     }
 
     async insert(job) {
