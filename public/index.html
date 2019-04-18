@@ -45,8 +45,7 @@
           <!-- Content Row -->
           <div class="row">
 
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-md-6 mb-4">
+            <div class="col-md-4 mb-4">
               <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
@@ -61,16 +60,28 @@
                 </div>
               </div>
             </div>
-
-
-
-            <div class="col-md-6 mb-4">
+            <div class="col-md-4 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Enabled Jobs</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ enabledJobsCount }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar-check fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4">
               <div class="card border-left-warning shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Disabled Jobs</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ disabledJobs.length }}</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ disabledJobsCount }}</div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-calendar-times fa-2x text-gray-300"></i>
@@ -79,6 +90,7 @@
                 </div>
               </div>
             </div>
+
           </div>
 
           <hr class="divider">
@@ -122,7 +134,7 @@
 
                 <div beth-each="jobs => $job" class="card-body card-line">
                   <div class="card">
-                    <div class="card-body" beth-class="'{ $job.active }' == 'true' ? 'border-left-success' : 'border-left-danger'">
+                    <div class="card-body" beth-class="'{ $job.active }' == 'true' ? 'border-left-success' : 'border-left-warning'">
                       <div class="row">
                         <div class="col-md-1">{ $job.id }</div>
                         <div class="col-md-2 text-center">{ $job.name }</div>
