@@ -1,10 +1,11 @@
 class Job {
-    constructor(name, cron, command, commandType) {
+    constructor(name, cron, command, commandType, active) {
         this.id = null;
         this.name = name;
         this.cron = cron;
         this.command = command;
         this.commandType = commandType;
+        this.active = active;
         this.createdAt = Date();
         this.updatedAt = Date();
     }
@@ -25,6 +26,10 @@ class Job {
 
         if (!object.hasOwnProperty('commandType')) {
             errors.push(`Missing property "commandType" on request body`);
+        }
+
+        if (!object.hasOwnProperty('active')) {
+            errors.push(`Missing property "active" on request body`);
         }
         return errors;
     }

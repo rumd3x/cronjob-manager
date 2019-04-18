@@ -61,7 +61,7 @@ const register = (app) => {
             return;
         }
 
-        let job = new Job(req.body.name, req.body.cron, req.body.command, req.body.commandType);
+        let job = new Job(req.body.name, req.body.cron, req.body.command, req.body.commandType, req.body.active);
         await jobDao.insert(job);
         utils.rewriteCronFile(await jobDao.list());
         res.status(201);
@@ -88,6 +88,7 @@ const register = (app) => {
         job.cron = req.body.cron;
         job.command = req.body.command;
         job.commandType = req.body.commandType;
+        job.active = req.body.active;
         let result = await jobDao.update(job);
 
         utils.rewriteCronFile(await jobDao.list());
