@@ -95,7 +95,7 @@
 
           <hr class="divider">
 
-          <!-- Page Heading -->
+          <!-- Section Header -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Job Management</h1>
             <a href="#" data-toggle="modal" data-target="#logoutModal" class="d-none d-sm-inline-block btn btn-success shadow-sm">
@@ -108,9 +108,10 @@
 
             <div class="col-md-12 mb-4">
 
-              <!-- Approach -->
+              <!-- Jobs Card -->
               <div class="card shadow mb-4">
 
+                <!-- Card Header -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Available Jobs</h6>
                   <a href="#" beth-click="getJobsList()" class="btn btn-sm btn-primary">
@@ -118,6 +119,7 @@
                   </a>
                 </div>
 
+                <!-- Jobs List Head -->
                 <div class="card-body card-line">
                   <div class="card">
                     <div class="card-body">
@@ -132,6 +134,7 @@
                   </div>
                 </div>
 
+                <!-- Jobs List Iterator -->
                 <div beth-each="jobs => $job" class="card-body card-line">
                   <div class="card">
                     <div class="card-body" beth-class="'{ $job.active }' == 'true' ? 'border-left-success' : 'border-left-warning'">
@@ -141,7 +144,7 @@
                         <div class="col-md-3 text-center">{ $job.createdAtFormatted }</div>
                         <div class="col-md-3 text-center">{ $job.updatedAtFormatted }</div>
                         <div class="col-md-3 text-center">
-                            <a href="#" data-id="{ $job.id }" class="btn btn-info btn-icon-split btn-sm">
+                            <a href="#" beth-click="getJobLogs({ $job.id })" class="btn btn-info btn-icon-split btn-sm">
                               <span class="icon text-white-50">
                                 <i class="fas fa-info-circle"></i>
                               </span>
@@ -153,7 +156,7 @@
                               </span>
                               <span class="text">Edit</span>
                             </a>
-                            <a href="#" data-id="{ $job.id }" class="btn btn-danger btn-icon-split btn-sm">
+                            <a href="#" beth-click="deleteJob({ $job.id })" class="btn btn-danger btn-icon-split btn-sm">
                               <span class="icon text-white-50">
                                 <i class="fas fa-trash"></i>
                               </span>
@@ -164,11 +167,14 @@
                     </div>
                   </div>
                 </div>
+                <!-- End of Jobs Iterator -->
 
               </div>
+              <!-- End of Jobs Card -->
 
             </div>
           </div>
+          <!-- Content Row End (Jobs Card) -->
 
         </div>
         <!-- /.container-fluid -->
@@ -226,14 +232,20 @@
   <!-- jQuery Toast -->
   <script src="vendor/kamranahmedse/jquery-toast-plugin/jquery.toast.min.js"></script>
 
+  <!-- Sweet Alert -->
+  <script src="vendor/swal2/sweetalert2.all.min.js"></script>
+
   <!-- Core plugin JavaScript-->
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
+  <script src="js/sb-admin-2.js"></script>
 
   <!-- Dashboard -->
+  <script src="modules/dashboard/find.js"></script>
   <script src="modules/dashboard/list.js"></script>
+  <script src="modules/dashboard/logs.js"></script>
+  <script src="modules/dashboard/delete.js"></script>
 </body>
 
 </html>

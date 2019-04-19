@@ -11,18 +11,7 @@ const getJobsList = () => {
         });
         enabledJobsCount = jobs.filter((job) => { return job.active }).length;
         disabledJobsCount = jobs.length - enabledJobsCount;
-        $.toast({
-            text: response.message,
-            icon: 'info',
-            showHideTransition: 'fade',
-            allowToastClose: false,
-            hideAfter: 2500,
-            stack: 50,
-            position: 'top-right',
-            textAlign: 'left',
-            loader: true,
-            loaderBg: '#9EC600',
-        });
+        makeToast('info', response.message);
     });
 }
 
