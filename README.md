@@ -20,9 +20,9 @@ $   docker volume create cronmanager-data
 Now run the image. You will also want the job manager to access your other containers, to manager them, so pass the `/var/run/docker.sock` as a volume too.
 ```sh
 $   docker run \
-    -p 80:80
-    -v cronmanager-data:/usr/src/app/.node-persist
-    -v /var/run/docker.sock:/var/run/docker.sock
+    -p 80:80 \
+    -v cronmanager-data:/usr/src/app/.node-persist \
+    -v /var/run/docker.sock:/var/run/docker.sock \
     edmur/cronjob-manager
 ```
 
@@ -92,7 +92,6 @@ http://your-host/api/jobs/{id}
 ### Body
 |    Field    |   Type  |                Description               |
 |:-----------:|:-------:|:----------------------------------------:|
-| id          | Number  | The id number of the Job.                |
 | name        | String  | A custom name for your Job.              |
 | cron        | String  | The cron schedule expression.            |
 | command     | String  | The name of the container to run.        |
