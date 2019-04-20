@@ -53,9 +53,4 @@ const getCronStatus = () => {
     };
 }
 
-const getLogs = (job) => {
-    let logs = shell.exec(`cat -ns /var/log/${job.name}.log 2>/dev/null`);
-    return logs;
-}
-
 module.exports = { getBiggest, rewriteCronFile, getLogs, getCronStatus }
