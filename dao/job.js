@@ -60,7 +60,7 @@ class JobDao {
             return false;
         }
         job.updatedAt = Date();
-        if (!this.insert(job)) {
+        if (!await this.insert(job)) {
             return false;
         }
         return true;

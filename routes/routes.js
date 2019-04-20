@@ -53,6 +53,13 @@ const register = (app) => {
         res.json({"data": logs, "message": `Job with id ${req.params.id} found.`});
     });
 
+    app.get("/api/info", async (req, res) => {
+        let info = utils.getCronStatus();
+
+        res.status(200);
+        res.json({"data": info.entries, "message": info.status});
+    });
+  
     app.post("/api/jobs", async (req, res) => {
         let errors = Job.validate(req.body);
         if (errors.length > 0) {
