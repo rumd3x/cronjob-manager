@@ -24,8 +24,10 @@ const rewriteCronFile = (jobs) => {
     }
     fs.closeSync(fs.openSync(cronFilePath, 'w'));
     jobs.forEach(job => {
-        let cronEntry = makeCommand(job) + ` >> /var/log/${job.name}.log 2>&1 \n`;
-        fs.appendFileSync(cronFilePath, cronEntry);
+        if (job.active) {
+            let cronEntry = makeCommand(job) + ` >> /var/log/${job.name}.log 2>&1 \n`;
+            fs.appendFileSync(cronFilePath, cronEntry);
+        }
     });
     restartCron();
 };
@@ -35,10 +37,8 @@ const makeCommand = (job) => {
 };
 
 const restartCron = () => {
-    const serviceBinary = shell.which("service");
     shell.exec(`cat /usr/src/app/.node-persist/jobs.crontab | crontab`);
-    shell.exec(`crontab -l`);
-    shell.exec(`${serviceBinary} cron reload`);
+    shell.exec(`service cron reload`);
 }
 
 const getLogs = (job) => {
@@ -46,4 +46,11 @@ const getLogs = (job) => {
     return logs;
 }
 
-module.exports = { getBiggest, rewriteCronFile, getLogs }
+const getCronStatus = () => {
+    return {
+        entries: shell.exec("crontab -l"),
+        status: shell.exec("service cron status")
+    };
+}
+
+module.exports = { getBiggest, rewriteCronFile, getLogs, getCronStatus }
