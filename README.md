@@ -1,5 +1,4 @@
 # cronjob-manager
-========================
 
 ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/edmur/cronjob-manager.svg)
 ![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/edmur/cronjob-manager.svg)
@@ -27,16 +26,53 @@ $   docker run \
     edmur/cronjob-manager
 ```
 
-The container also exposes port `80` to the web interface and API, so forward that port to a port on your host.
+The container exposes port `80` to the web interface and API, so forward that port to a port on your host.
 
 ## API
 
-The web interface uses a REST API on the back-end that can also be called manually.
+The web interface uses a REST API on the back-end that can also be called externally.
 
-- `GET` Jobs
+- `GET` Jobs<br/>
+Retrieve a list of existing jobs.
 ```
 http://your-host/api/jobs
 ```
+
+- `GET` Job<br/>
+Retrieve information about specific Job.
+```
+http://your-host/api/jobs/{id}
+```
+
+- `GET` Job Logs<br/>
+Retrieve logs from specific Job.
+```
+http://your-host/api/jobs/{id}/logs
+```
+
+- `GET` Information<br/>
+Retrieve information about crontab.
+```
+http://your-host/api/info
+```
+
+- `POST` Jobs
+Create a new Job.
+```
+http://your-host/api/jobs
+```
+### Headers
+|     Field    |  Type  |       Value      |
+|:------------:|:------:|:----------------:|
+| Content-Type | String | application/json |
+### Body
+|    Field    |   Type  |                Description               |
+|:-----------:|:-------:|:----------------------------------------:|
+| name        | String  | A custom name for your Job.              |
+| cron        | String  | The cron schedule expression.            |
+| command     | String  | The name of the container to run.        |
+| commandType | String  | The command to execute on the container. |
+| active      | Boolean | If the job is enabled or not.            |
 
 ## License
 
