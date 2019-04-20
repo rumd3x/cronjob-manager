@@ -32,6 +32,12 @@ The container exposes port `80` to the web interface and API, so forward that po
 
 The web interface uses a REST API on the back-end that can also be called externally.
 
+- `GET` Information<br/>
+Retrieve information about crontab.
+```
+http://your-host/api/info
+```
+
 - `GET` Jobs<br/>
 Retrieve a list of existing jobs.
 ```
@@ -50,13 +56,13 @@ Retrieve logs from specific Job.
 http://your-host/api/jobs/{id}/logs
 ```
 
-- `GET` Information<br/>
-Retrieve information about crontab.
+- `DELETE` Job<br/>
+Delete a Job.
 ```
-http://your-host/api/info
+http://your-host/api/jobs/{id}
 ```
 
-- `POST` Jobs
+- `POST` Jobs<br/>
 Create a new Job.
 ```
 http://your-host/api/jobs
@@ -68,6 +74,25 @@ http://your-host/api/jobs
 ### Body
 |    Field    |   Type  |                Description               |
 |:-----------:|:-------:|:----------------------------------------:|
+| name        | String  | A custom name for your Job.              |
+| cron        | String  | The cron schedule expression.            |
+| command     | String  | The name of the container to run.        |
+| commandType | String  | The command to execute on the container. |
+| active      | Boolean | If the job is enabled or not.            |
+
+- `PUT` Jobs<br/>
+Update information of existing job.
+```
+http://your-host/api/jobs/{id}
+```
+### Headers
+|     Field    |  Type  |       Value      |
+|:------------:|:------:|:----------------:|
+| Content-Type | String | application/json |
+### Body
+|    Field    |   Type  |                Description               |
+|:-----------:|:-------:|:----------------------------------------:|
+| id          | Number  | The id number of the Job.                |
 | name        | String  | A custom name for your Job.              |
 | cron        | String  | The cron schedule expression.            |
 | command     | String  | The name of the container to run.        |
