@@ -42,7 +42,7 @@ const restartCron = () => {
 }
 
 const getLogs = (job) => {
-    let logs = shell.exec(`cat -ns /var/log/${job.name}.log 2>/dev/null`);
+    let logs = shell.exec(`tail -n 200 /var/log/${job.name}.log 2>/dev/null`);
     return logs;
 }
 
