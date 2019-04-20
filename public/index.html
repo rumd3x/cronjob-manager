@@ -1,1 +1,301 @@
-<h1>Hello</h1>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Docker Cronjob Manager - Web Interface</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.css" rel="stylesheet">
+  <link href="vendor/kamranahmedse/jquery-toast-plugin/jquery.toast.min.css" rel="stylesheet">
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+            <span class="navbar-brand">Docker Cronjob Manager</span>
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+
+
+          <!-- Content Row -->
+          <div class="row">
+
+            <div class="col-md-4 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Jobs</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ jobs.length }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar-day fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Enabled Jobs</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ enabledJobsCount }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar-check fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Disabled Jobs</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"> {{ disabledJobsCount }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar-times fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <hr class="divider">
+
+          <!-- Section Header -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Job Management</h1>
+            <a href="#" beth-click="getInfo()" class="d-none d-sm-inline-block btn btn-info shadow-sm">
+              <i class="fas fa-calendar-week fa-sm text-white-50"></i> See crontab
+            </a>
+            <a href="#" beth-click="resetForm()" data-toggle="modal" data-target="#jobFormModal" class="d-none d-sm-inline-block btn btn-success shadow-sm">
+              <i class="fas fa-calendar-plus fa-sm text-white-50"></i> New Job
+            </a>
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+
+            <div class="col-md-12 mb-4">
+
+              <!-- Jobs Card -->
+              <div class="card shadow mb-4">
+
+                <!-- Card Header -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Available Jobs</h6>
+                  <a href="#" beth-click="getJobsList()" class="btn btn-sm btn-primary">
+                    <i class="fas fa-sync fa-sm text-white-50"></i>
+                  </a>
+                </div>
+
+                <!-- Jobs List Head -->
+                <div class="card-body card-line">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-1">#</div>
+                        <div class="col-md-2 text-center">Name</div>
+                        <div class="col-md-3 text-center">Created At</div>
+                        <div class="col-md-3 text-center">Updated At</div>
+                        <div class="col-md-3 text-center">Tools</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Jobs List Iterator -->
+                <div beth-each="jobs => $job" class="card-body card-line">
+                  <div class="card">
+                    <div class="card-body" beth-class="'{ $job.active }' == 'true' ? 'border-left-success' : 'border-left-warning'">
+                      <div class="row">
+                        <div class="col-md-1">{ $job.id }</div>
+                        <div class="col-md-2 text-center">{ $job.name }</div>
+                        <div class="col-md-3 text-center">{ $job.createdAtFormatted }</div>
+                        <div class="col-md-3 text-center">{ $job.updatedAtFormatted }</div>
+                        <div class="col-md-3 text-center">
+                            <a href="#" beth-click="getJobLogs({ $job.id })" class="btn btn-info btn-icon-split btn-sm">
+                              <span class="icon text-white-50">
+                                <i class="fas fa-info-circle"></i>
+                              </span>
+                              <span class="text">Logs</span>
+                            </a>
+                            <a href="#" beth-click="setFormDataToJobId({ $job.id })" data-toggle="modal" data-target="#jobFormModal" data-id="{ $job.id }" class="btn btn-primary btn-icon-split btn-sm">
+                              <span class="icon text-white-50">
+                                <i class="fas fa-edit"></i>
+                              </span>
+                              <span class="text">Edit</span>
+                            </a>
+                            <a href="#" beth-click="deleteJob({ $job.id })" class="btn btn-danger btn-icon-split btn-sm">
+                              <span class="icon text-white-50">
+                                <i class="fas fa-trash"></i>
+                              </span>
+                              <span class="text">Delete</span>
+                            </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End of Jobs Iterator -->
+
+              </div>
+              <!-- End of Jobs Card -->
+
+            </div>
+          </div>
+          <!-- Content Row End (Jobs Card) -->
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span><i class="fab fa-github"></i> <a target="_blank" href="https://github.com/rumd3x/cronjob-manager">Contribute</a></span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Job Form Modal-->
+  <div class="modal fade" id="jobFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Job Management</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <form id="frmJob">
+
+            <div class="form-group">
+              <label for="txtJobName">Job Name</label>
+              <input beth-bind="formObject.name" type="text" class="form-control" id="txtJobName" name="name" aria-describedby="jobNameHelp" placeholder="my-backup">
+              <small id="jobNameHelp" class="form-text text-muted">Give a name to this Job.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="cmbJobCmdType">Command type</label>
+              <select beth-bind="formObject.commandType" class="form-control" name="commandType" id="cmbJobCmdType" aria-describedby="jobCommandType">
+                <option value="docker start">Start Container</option>
+                <option value="docker stop">Stop Container</option>
+                <option value="docker kill">Kill Container</option>
+                <option value="docker restart">Restart Container</option>
+                <option value="docker pause">Pause Container</option>
+                <option value="docker unpause">Unpause Container</option>
+              </select>
+              <small id="jobCommandType" class="form-text text-muted">The type of command to execute for this job.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="txtContainerName">Container</label>
+                <input beth-bind="formObject.command" type="text" class="form-control" id="txtContainerName" name="command" aria-describedby="jobCommandHelp" placeholder="my-container or f388676eca0c">
+                <small id="jobCommandHelp" class="form-text text-muted">The container name or ID to execute the command on.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="txtJobSchedule">Schedule</label>
+                <input beth-bind="formObject.cron" type="text" class="form-control" id="txtJobSchedule" name="cron" aria-describedby="jobScheduleHelp" placeholder="* * * * *">
+                <small id="jobScheduleHelp" class="form-text text-muted">The crontab schedule for this job. Click <a href="https://crontab.guru/" target="_blank">here</a> to create a crontab.</small>
+            </div>
+            
+            <div class="form-check">
+              <input beth-bind="formObject.active" type="checkbox" class="form-check-input" id="ckbJobActive" name="active">
+              <label class="form-check-label" for="ckbJobActive">Enable Job</label>
+            </div>
+
+            <input type="hidden" name="id" beth-bind="formObject.id">
+
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a beth-click="sendForm()" class="btn btn-success" href="#">Save</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Modal -->
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- BethJS -->
+  <script src="vendor/rumd3x/beth.min.js"></script>
+
+  <!-- jQuery Toast -->
+  <script src="vendor/kamranahmedse/jquery-toast-plugin/jquery.toast.min.js"></script>
+
+  <!-- Sweet Alert -->
+  <script src="vendor/swal2/sweetalert2.all.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.js"></script>
+
+  <!-- Dashboard -->
+  <script src="modules/dashboard/info.js"></script>
+  <script src="modules/dashboard/find.js"></script>
+  <script src="modules/dashboard/list.js"></script>
+  <script src="modules/dashboard/form.js"></script>
+  <script src="modules/dashboard/logs.js"></script>
+  <script src="modules/dashboard/delete.js"></script>
+</body>
+
+</html>

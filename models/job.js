@@ -39,6 +39,10 @@ class Job {
         if (!object.hasOwnProperty('active')) {
             errors.push(`Missing property "active" on request body`);
         }
+
+        if (!object.hasOwnProperty('active')) {
+            errors.push(`Missing property "active" on request body`);
+        }
         return errors;
     }
 }
