@@ -59,7 +59,7 @@ const register = (app) => {
         res.status(200);
         res.json({"data": info.entries, "message": info.status});
     });
-  
+
     app.post("/api/jobs", async (req, res) => {
         let errors = Job.validate(req.body);
         if (errors.length > 0) {
@@ -91,6 +91,7 @@ const register = (app) => {
             return;
         }
 
+        job.id = req.params.id;
         job.name = req.body.name;
         job.cron = req.body.cron;
         job.command = req.body.command;
