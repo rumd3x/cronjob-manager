@@ -98,7 +98,10 @@
           <!-- Section Header -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Job Management</h1>
-            <a href="#" data-toggle="modal" data-target="#logoutModal" class="d-none d-sm-inline-block btn btn-success shadow-sm">
+            <a href="#" beth-click="getInfo()" class="d-none d-sm-inline-block btn btn-info shadow-sm">
+              <i class="fas fa-calendar-week fa-sm text-white-50"></i> See crontab
+            </a>
+            <a href="#" beth-click="resetForm()" data-toggle="modal" data-target="#jobFormModal" class="d-none d-sm-inline-block btn btn-success shadow-sm">
               <i class="fas fa-calendar-plus fa-sm text-white-50"></i> New Job
             </a>
           </div>
@@ -150,7 +153,7 @@
                               </span>
                               <span class="text">Logs</span>
                             </a>
-                            <a href="#" data-id="{ $job.id }" class="btn btn-primary btn-icon-split btn-sm">
+                            <a href="#" beth-click="setFormDataToJobId({ $job.id })" data-toggle="modal" data-target="#jobFormModal" data-id="{ $job.id }" class="btn btn-primary btn-icon-split btn-sm">
                               <span class="icon text-white-50">
                                 <i class="fas fa-edit"></i>
                               </span>
@@ -203,24 +206,69 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- Job Form Modal-->
+  <div class="modal fade" id="jobFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Job Management</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+
+        <div class="modal-body">
+          <form id="frmJob">
+
+            <div class="form-group">
+              <label for="txtJobName">Job Name</label>
+              <input beth-bind="formObject.name" type="text" class="form-control" id="txtJobName" name="name" aria-describedby="jobNameHelp" placeholder="my-backup">
+              <small id="jobNameHelp" class="form-text text-muted">Give a name to this Job.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="cmbJobCmdType">Command type</label>
+              <select beth-bind="formObject.commandType" class="form-control" name="commandType" id="cmbJobCmdType" aria-describedby="jobCommandType">
+                <option value="docker start">Start Container</option>
+                <option value="docker stop">Stop Container</option>
+                <option value="docker kill">Kill Container</option>
+                <option value="docker restart">Restart Container</option>
+                <option value="docker pause">Pause Container</option>
+                <option value="docker unpause">Unpause Container</option>
+              </select>
+              <small id="jobCommandType" class="form-text text-muted">The type of command to execute for this job.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="txtContainerName">Container</label>
+                <input beth-bind="formObject.command" type="text" class="form-control" id="txtContainerName" name="command" aria-describedby="jobCommandHelp" placeholder="my-container or f388676eca0c">
+                <small id="jobCommandHelp" class="form-text text-muted">The container name or ID to execute the command on.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="txtJobSchedule">Schedule</label>
+                <input beth-bind="formObject.cron" type="text" class="form-control" id="txtJobSchedule" name="cron" aria-describedby="jobScheduleHelp" placeholder="* * * * *">
+                <small id="jobScheduleHelp" class="form-text text-muted">The crontab schedule for this job. Click <a href="https://crontab.guru/" target="_blank">here</a> to create a crontab.</small>
+            </div>
+            
+            <div class="form-check">
+              <input beth-bind="formObject.active" type="checkbox" class="form-check-input" id="ckbJobActive" name="active">
+              <label class="form-check-label" for="ckbJobActive">Enable Job</label>
+            </div>
+
+            <input type="hidden" name="id" beth-bind="formObject.id">
+
+          </form>
+        </div>
+
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
+          <a beth-click="sendForm()" class="btn btn-success" href="#">Save</a>
         </div>
       </div>
     </div>
   </div>
+  <!-- End Modal -->
 
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
@@ -242,8 +290,10 @@
   <script src="js/sb-admin-2.js"></script>
 
   <!-- Dashboard -->
+  <script src="modules/dashboard/info.js"></script>
   <script src="modules/dashboard/find.js"></script>
   <script src="modules/dashboard/list.js"></script>
+  <script src="modules/dashboard/form.js"></script>
   <script src="modules/dashboard/logs.js"></script>
   <script src="modules/dashboard/delete.js"></script>
 </body>
