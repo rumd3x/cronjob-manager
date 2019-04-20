@@ -92,7 +92,6 @@ http://your-host/api/jobs/{id}
 ### Body
 |    Field    |   Type  |                Description               |
 |:-----------:|:-------:|:----------------------------------------:|
-| id          | Number  | The id number of the Job.                |
 | name        | String  | A custom name for your Job.              |
 | cron        | String  | The cron schedule expression.            |
 | command     | String  | The name of the container to run.        |
