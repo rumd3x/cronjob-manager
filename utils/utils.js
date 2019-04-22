@@ -42,8 +42,10 @@ const restartCron = () => {
 }
 
 const getLogs = (job) => {
-    let logs = shell.exec(`tail -n 200 /var/log/${job.name}.log 2>/dev/null`);
-    return logs;
+    return {
+        cron: shell.exec(`tail -n 200 /var/log/${job.name}.log 2>/dev/null`),
+        container: shell.exec(`docker logs --timestamps --tail 200 ${job.command}`)
+    }
 }
 
 const getCronStatus = () => {
