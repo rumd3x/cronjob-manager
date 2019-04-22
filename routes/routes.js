@@ -30,7 +30,7 @@ const register = (app) => {
 
         if (!job) {
             res.status(404);
-            res.json({"data": job, "message": `Could not find specified Job with id ${req.params.id}.`});
+            res.json({"data": null, "message": `Could not find specified Job with id ${req.params.id}.`});
             return;
         }
 
@@ -43,7 +43,7 @@ const register = (app) => {
 
         if (!job) {
             res.status(404);
-            res.json({"data": job, "message": `Could not find specified Job with id ${req.params.id}.`});
+            res.json({"data": null, "message": `Could not find specified Job with id ${req.params.id}.`});
             return;
         }
 
@@ -80,7 +80,7 @@ const register = (app) => {
 
         if (!job) {
             res.status(404);
-            res.json({"data": job, "message": `Could not find specified Job with id ${req.params.id}.`});
+            res.json({"data": null, "message": `Could not find specified Job with id ${req.params.id}.`});
             return;
         }
 
