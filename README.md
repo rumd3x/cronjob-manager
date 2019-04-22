@@ -12,21 +12,28 @@ The aim for this project is for dockerized environments. Containerized tasks ask
 
 ## Usage
 
-You will probably want your tasks to persist after container recreation. So create a volume.
+You will probably want your tasks to persist after container recreation. So create a volume, and pass it as a mountpoint.
+
 ```sh
-$   docker volume create cronmanager-data
+docker volume create cronmanager-data
 ```
 
-Now run the image. You will also want the job manager to access your other containers, to manager them, so pass the `/var/run/docker.sock` as a volume too.
-```sh
-$   docker run \
-    -p 80:80 \
-    -v cronmanager-data:/usr/src/app/.node-persist \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    edmur/cronjob-manager
-```
+You will also want the job manager to access your other containers, so it can manage them. For that, pass `/var/run/docker.sock` as a mountpoint.
 
-The container exposes port `80` to the web interface and API, so forward that port to a port on your host.
+This is a cronjob schedule related image, which is very time sensitive. So it is very important to get the your time settings right. Luckily this image supports the `TZ` environment var for setting the timezone, so no worries. Just make sure to get it right like in the example below.
+
+The container exposes port `80` for using the web interface and the API, just forward that port to a port on your host. The web interface is located at `http://your.hostname:port/`. The API docs are below.
+
+Now to run the image:
+
+```sh
+docker run \
+-p 80:80 \
+-v cronmanager-data:/usr/src/app/.node-persist \
+-v /var/run/docker.sock:/var/run/docker.sock \
+-e TZ="America/Sao_Paulo" \
+edmur/cronjob-manager
+```
 
 ## API
 
@@ -97,6 +104,9 @@ http://your-host/api/jobs/{id}
 | command     | String  | The name of the container to run.        |
 | commandType | String  | The command to execute on the container. |
 | active      | Boolean | If the job is enabled or not.            |
+
+## To Do
+- Add current container time to web interface
 
 ## License
 
