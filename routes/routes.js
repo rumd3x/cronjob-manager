@@ -18,6 +18,11 @@ const register = (app) => {
         res.json({message: err.message});
     });
 
+    app.get("/api/time", async (req, res) => {
+        res.status(200);
+        res.json({"data": new Date(), "message": ""});
+    });
+
     app.get("/api/jobs", async (req, res) => {
         let jobs = await jobDao.list();
 
