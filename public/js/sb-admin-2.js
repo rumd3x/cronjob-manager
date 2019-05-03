@@ -47,18 +47,3 @@
   });
 
 })(jQuery); // End of use strict
-
-const makeToast = (type, message) => {
-  $.toast({
-      text: message,
-      icon: type,
-      showHideTransition: 'fade',
-      allowToastClose: false,
-      hideAfter: 3000,
-      stack: 50,
-      position: 'top-right',
-      textAlign: 'left',
-      loader: true,
-      loaderBg: '#FFFFFF',
-  });
-}

@@ -45,6 +45,12 @@ Retrieve information about crontab.
 http://your-host/api/info
 ```
 
+- `GET` Time<br/>
+Get current server date and time information.
+```
+http://your-host/api/time
+```
+
 - `GET` Jobs<br/>
 Retrieve a list of existing jobs.
 ```
@@ -106,7 +112,7 @@ http://your-host/api/jobs/{id}
 | active      | Boolean | If the job is enabled or not.            |
 
 ## To Do
-- Add current container time to web interface
+- Have more ideas...
 
 ## License
 

@@ -34,6 +34,7 @@
         <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
             <span class="navbar-brand">Docker Cronjob Manager</span>
+            <small>Server Time: {{ currentTime }}</small>
         </nav>
         <!-- End of Topbar -->
 
@@ -250,7 +251,7 @@
                 <input beth-bind="formObject.cron" type="text" class="form-control" id="txtJobSchedule" name="cron" aria-describedby="jobScheduleHelp" placeholder="* * * * *">
                 <small id="jobScheduleHelp" class="form-text text-muted">The crontab schedule for this job. Click <a href="https://crontab.guru/" target="_blank">here</a> to create a crontab.</small>
             </div>
-            
+
             <div class="form-check">
               <input beth-bind="formObject.active" type="checkbox" class="form-check-input" id="ckbJobActive" name="active">
               <label class="form-check-label" for="ckbJobActive">Enable Job</label>
@@ -290,12 +291,14 @@
   <script src="js/sb-admin-2.js"></script>
 
   <!-- Dashboard -->
+  <script src="modules/commons.js"></script>
   <script src="modules/dashboard/info.js"></script>
   <script src="modules/dashboard/find.js"></script>
   <script src="modules/dashboard/list.js"></script>
   <script src="modules/dashboard/form.js"></script>
   <script src="modules/dashboard/logs.js"></script>
   <script src="modules/dashboard/delete.js"></script>
+  <script src="modules/dashboard/time.js"></script>
 </body>
 
 </html>

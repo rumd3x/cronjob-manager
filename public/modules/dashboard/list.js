@@ -15,8 +15,4 @@ const getJobsList = () => {
     });
 }
 
-const formatDateTimeString = (date) => {
-    return new Date(Date.parse(date)).toLocaleString();
-}
-
 getJobsList();

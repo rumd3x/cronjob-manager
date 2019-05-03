@@ -1,6 +1,5 @@
 const deleteJob = (job_id) => {
     findJobById(job_id, (job) => {
-        console.log(job);
         Swal.fire({
             title: `Deleting job: ${job.name} (id: ${job.id})`,
             text: "You are about to delete this job.",
