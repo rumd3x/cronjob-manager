@@ -18,6 +18,17 @@ const register = (app) => {
         res.json({message: err.message});
     });
 
+    app.get("/probe", (req, res) => {
+        let cronStatus = utils.getCronStatus();
+
+        if (cronStatus.status !== "cron is running.") {
+            res.status(500);
+            return;
+        }
+
+        res.status(200);
+    });
+
     app.get("/api/time", async (req, res) => {
         res.status(200);
         res.json({"data": new Date(), "message": ""});
