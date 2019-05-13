@@ -49,10 +49,18 @@ const getLogs = (job) => {
 }
 
 const getCronStatus = () => {
+    let cronServiceStatus = shell.exec("service cron status", { silent: true });
     return {
-        entries: shell.exec("crontab -l"),
-        status: shell.exec("service cron status")
+        entries: shell.exec("crontab -l", { silent: true }),
+        status: cronServiceStatus,
+        healthy: cronServiceStatus.code === 0
     };
 }
 
-module.exports = { getBiggest, rewriteCronFile, getLogs, getCronStatus }
+const getDockerStatus = () => {
+    return {
+        healthy: shell.exec("docker info", { silent: true }).code === 0
+    };
+};
+
+module.exports = { getBiggest, rewriteCronFile, getLogs, getCronStatus, getDockerStatus }
