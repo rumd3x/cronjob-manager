@@ -16,7 +16,7 @@ RUN mkdir -p /usr/src/app/.node-persist
 RUN touch /usr/src/app/.node-persist/jobs.crontab
 RUN cat /usr/src/app/.node-persist/jobs.crontab | crontab
 
-HEALTHCHECK --interval=20s --timeout=10s --start-period=5s --retries=3 CMD curl --connect-timeout 4 --max-time 6 --fail -I localhost/probe
+HEALTHCHECK --interval=60s --timeout=3s --start-period=5s --retries=3 CMD curl --connect-timeout 1 --max-time 2 --fail -I localhost/probe
 
 EXPOSE 80
 

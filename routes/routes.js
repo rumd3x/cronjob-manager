@@ -19,14 +19,15 @@ const register = (app) => {
     });
 
     app.get("/probe", (req, res) => {
-        let cronStatus = utils.getCronStatus();
+        let cron = utils.getCronStatus();
+        let docker = utils.getDockerStatus();
 
-        if (cronStatus.status !== "cron is running.") {
-            res.status(500);
+        if (!cron.healthy || !docker.healthy) {
+            res.status(500).json({"data": "NOK", "message": "Healthcheck failed."});
             return;
         }
 
-        res.status(200);
+        res.status(200).json({"data": "OK", "message": "Healthcheck passed."});
     });
 
     app.get("/api/time", async (req, res) => {
